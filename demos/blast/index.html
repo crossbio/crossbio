@@ -1,0 +1,62 @@
+<meta charset="utf8">
+<script src="../external/crossfilter/crossfilter.js"></script>
+<script src="../external/d3/d3.js"></script>
+<script src="../external/dcjs/dc.js"></script>
+<script src="./biojs_io_blast.js"></script>
+<link rel="stylesheet" href="../external/dcjs/dc.css" type="text/css">
+<link rel="stylesheet" href="../external/bootstrap/dist/css/bootstrap.css" type="text/css">
+<div class="container">
+    <div class="row">
+        <div class="dc-data-count">
+            <span class="filter-count"></span> selected out of <span class="total-count"></span> records
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div id="blast-ident">
+            <strong>Sequence identitiy</strong>
+            <a class="reset" href="javascript:identChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+            <div class="clearfix"></div>
+        </div>
+        <div id="blast-length">
+            <strong>Length distribution</strong>
+            <a class="reset" href="javascript:lengthChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+            <div class="clearfix"></div>
+        </div>
+        <div id="blast-score">
+		
+            <strong>Score distribution</strong>
+            <a class="reset" href="javascript:blastScore.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+            <div class="clearfix"></div>
+		</div>
+
+        <div id="blast-org">
+            <strong>Organisms</strong>
+            <a class="reset" href="javascript:blastOrg.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+            <div class="clearfix"></div>
+		</div>
+
+        <div id="blast-prot">
+            <strong>Proteins</strong>
+            <a class="reset" href="javascript:blastProt.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+            <div class="clearfix"></div>
+		</div>
+
+    <div class="row">
+        <div id="blast-hssp">
+            <strong>HSSP</strong>
+            <a class="reset" href="javascript:blastHSSP.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+            <div class="clearfix"></div>
+		</div>
+    </div>
+
+
+
+    </div>
+
+    <!-- anchor div for data table -->
+    <table class="dc-data-table table table-hover">
+    </table>
+</div>
+<script src="./script.js"></script>

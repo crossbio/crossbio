@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+- '0.12'
+before_deploy: npm run build
+cache: bundler
+deploy:
+  provider: s3
+  access_key_id: AKIAJ7SXC23CS2USONIA
+  secret_access_key:
+    secure: E4/3aEu0ed5U8j3JRx0hifsUSQlkYRxhRhChYpVba9z9CRW/DLHuZPj7Z/a2oZMujyHpq2jPnx3rUb5tMnmJA3mPKAr0xpvDLCV+eySl2UTc+ecgnrFLKsS6YTshtsYy8AtBN0trNNT5FS8j+KWUycNekwp4+n3UMn+zXLevcZ0=
+  bucket: crossb.io
+  region: eu-west-1
+  acl: public-read
+  detect_encoding: true
+  skip_cleanup: true
+  local-dir: build
+  on:
+    repo: greenify/crossbio
