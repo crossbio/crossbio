@@ -1,4 +1,5 @@
 /* global dc,crossfilter */ 
+require("crossbio");
 
 var lengthChart = dc.barChart('#blast-length');
 var identChart = dc.pieChart('#blast-ident');
@@ -10,7 +11,7 @@ var blastHSSP = dc.scatterPlot('#blast-hssp');
 var Blast = require("biojs-io-blast");
 Blast.read("./example_blast.xml", display);
 
-function display(result) {
+function display(err, result) {
 
   var hits = result.iterations[0].hits;
 

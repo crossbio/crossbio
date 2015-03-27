@@ -16,6 +16,7 @@
     "dc": "^2.0.0-beta.3"
   },
   "devDependencies": {
+    "biojs-io-blast": "0.0.10",
     "browserify": "^9.0.3",
     "cheerio": "^0.19.0",
     "cp": "^0.2.0",
