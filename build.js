@@ -18,7 +18,8 @@ ncp(__dirname + "/demos", outDir, function(err) {
   if (err) {
     return console.error(err);
   }
-  glob(__dirname + "/demos/*/index.html", function(er, files) {
+  glob(outDir + "/*/index.html", function(er, files) {
+    console.log(files);
     files.forEach(function(f) {
       updateFile(f);
     });
