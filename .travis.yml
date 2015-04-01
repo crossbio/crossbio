@@ -5,9 +5,9 @@ before_deploy: npm run build
 cache: bundler
 deploy:
   provider: s3
-  access_key_id: AKIAJ7SXC23CS2USONIA
+  access_key_id: AKIAJKPPTVTSBW2NTUMA
   secret_access_key:
-    secure: E4/3aEu0ed5U8j3JRx0hifsUSQlkYRxhRhChYpVba9z9CRW/DLHuZPj7Z/a2oZMujyHpq2jPnx3rUb5tMnmJA3mPKAr0xpvDLCV+eySl2UTc+ecgnrFLKsS6YTshtsYy8AtBN0trNNT5FS8j+KWUycNekwp4+n3UMn+zXLevcZ0=
+    secure: d8Sp08e0sVg1EDB2O1EIBUQpyUkugH2zBWCchFTua9Bd3XAmg0xIUgYXeOKgb5zErAu511R7AmJ6b2rUFBEFKwlNN2ZVizzEcgF7NdadJxchuXGpqn6kwGQszcCDnLJW/XA5m0kLmdN8L2bro7LelA2FKq2RiNZHs/oCObj/4x0=
   bucket: demo.crossb.io
   region: eu-west-1
   acl: public-read
