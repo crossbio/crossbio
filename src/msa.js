@@ -19,82 +19,84 @@ A newly created data table widget instance
 **/
 
 var pkgName = "msa";
-var msa = require(pkgName);
-  
-var crossbioMSA = function (parent, chartGroup) {
-    var LABEL_CSS_CLASS = 'dc-table-label';
-    var ROW_CSS_CLASS = 'dc-table-row';
-    var COLUMN_CSS_CLASS = 'dc-table-column';
-    var GROUP_CSS_CLASS = 'dc-table-group';
-    var HEAD_CSS_CLASS = 'dc-table-head';
 
-    var _chart = dc.baseMixin({});
+var crossbioMSA = function(parent, chartGroup) {
 
-    var _size = 25;
-    var _columns = [];
-    var _sortBy = function (d) {
-        return d;
-    };
-    var _order = d3.ascending;
+  var msa = require(pkgName);
 
-    _chart._doRender = function () {
-        _chart.selectAll('tbody').remove();
+  var LABEL_CSS_CLASS = 'dc-table-label';
+  var ROW_CSS_CLASS = 'dc-table-row';
+  var COLUMN_CSS_CLASS = 'dc-table-column';
+  var GROUP_CSS_CLASS = 'dc-table-group';
+  var HEAD_CSS_CLASS = 'dc-table-head';
 
-        //renderRows(renderGroups());
-        var m = new msa({
-            el: this.root()[0],
-            seqs: nestEntries(), 
-            //bootstrapMenu: true
-          });
+  var _chart = dc.baseMixin({});
 
-        m.render();
+  var _size = 25;
+  var _columns = [];
+  var _sortBy = function(d) {
+    return d;
+  };
+  var _order = d3.ascending;
 
-        return _chart;
-    };
+  _chart._doRender = function() {
+    _chart.selectAll('tbody').remove();
 
-    _chart._doColumnValueFormat = function (v, d) {
-        return ((typeof v === 'function') ?
-                v(d) :                          // v as function
-                ((typeof v === 'string') ?
-                 d[v] :                         // v is field name string
-                 v.format(d)                        // v is Object, use fn (element 2)
-                )
-               );
-    };
+    //renderRows(renderGroups());
+    var m = new msa({
+      el: this.root()[0],
+      seqs: nestEntries(),
+      //bootstrapMenu: true
+    });
 
-    _chart._doColumnHeaderFormat = function (d) {
-        // if 'function', convert to string representation
-        // show a string capitalized
-        // if an object then display it's label string as-is.
-        return (typeof d === 'function') ?
-                _chart._doColumnHeaderFnToString(d) :
-                ((typeof d === 'string') ?
-                 _chart._doColumnHeaderCapitalize(d) : String(d.label));
-    };
+    m.render();
 
-    _chart._doColumnHeaderCapitalize = function (s) {
-        // capitalize
-        return s.charAt(0).toUpperCase() + s.slice(1);
-    };
+    return _chart;
+  };
 
-    _chart._doColumnHeaderFnToString = function (f) {
-        // columnString(f) {
-        var s = String(f);
-        var i1 = s.indexOf('return ');
-        if (i1 >= 0) {
-            var i2 = s.lastIndexOf(';');
-            if (i2 >= 0) {
-                s = s.substring(i1 + 7, i2);
-                var i3 = s.indexOf('numberFormat');
-                if (i3 >= 0) {
-                    s = s.replace('numberFormat', '');
-                }
-            }
+  _chart._doColumnValueFormat = function(v, d) {
+    return ((typeof v === 'function') ?
+      v(d) : // v as function
+      ((typeof v === 'string') ?
+        d[v] : // v is field name string
+        v.format(d) // v is Object, use fn (element 2)
+      )
+    );
+  };
+
+  _chart._doColumnHeaderFormat = function(d) {
+    // if 'function', convert to string representation
+    // show a string capitalized
+    // if an object then display it's label string as-is.
+    return (typeof d === 'function') ?
+      _chart._doColumnHeaderFnToString(d) :
+      ((typeof d === 'string') ?
+        _chart._doColumnHeaderCapitalize(d) : String(d.label));
+  };
+
+  _chart._doColumnHeaderCapitalize = function(s) {
+    // capitalize
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  };
+
+  _chart._doColumnHeaderFnToString = function(f) {
+    // columnString(f) {
+    var s = String(f);
+    var i1 = s.indexOf('return ');
+    if (i1 >= 0) {
+      var i2 = s.lastIndexOf(';');
+      if (i2 >= 0) {
+        s = s.substring(i1 + 7, i2);
+        var i3 = s.indexOf('numberFormat');
+        if (i3 >= 0) {
+          s = s.replace('numberFormat', '');
         }
-        return s;
-    };
+      }
+    }
+    return s;
+  };
 
-    /*
+  /*
 
     function renderGroups() {
         // The 'original' example uses all 'functions'.
@@ -152,185 +154,185 @@ var crossbioMSA = function (parent, chartGroup) {
 
     */
 
-    function nestEntries() {
-        var entries;
-        if (_order === d3.ascending) {
-            entries = _chart.dimension().bottom(_size);
-        } else {
-            entries = _chart.dimension().top(_size);
-        }
-
-        var seqs = d3.nest()
-            .key(_chart.group())
-            .sortKeys(_order)
-            .entries(entries.sort(function (a, b) {
-                return _order(_sortBy(a), _sortBy(b));
-            }));
-        return seqs[0].values;
+  function nestEntries() {
+    var entries;
+    if (_order === d3.ascending) {
+      entries = _chart.dimension().bottom(_size);
+    } else {
+      entries = _chart.dimension().top(_size);
     }
 
-    function renderRows(groups) {
-        var rows = groups.order()
-            .selectAll('tr.' + ROW_CSS_CLASS)
-            .data(function (d) {
-                return d.values;
-            });
+    var seqs = d3.nest()
+      .key(_chart.group())
+      .sortKeys(_order)
+      .entries(entries.sort(function(a, b) {
+        return _order(_sortBy(a), _sortBy(b));
+      }));
+    return seqs[0].values;
+  }
 
-        var rowEnter = rows.enter()
-            .append('tr')
-            .attr('class', ROW_CSS_CLASS);
+  function renderRows(groups) {
+    var rows = groups.order()
+      .selectAll('tr.' + ROW_CSS_CLASS)
+      .data(function(d) {
+        return d.values;
+      });
 
-        _columns.forEach(function (v, i) {
-            rowEnter.append('td')
-                .attr('class', COLUMN_CSS_CLASS + ' _' + i)
-                .html(function (d) {
-                    return _chart._doColumnValueFormat(v, d);
-                });
+    var rowEnter = rows.enter()
+      .append('tr')
+      .attr('class', ROW_CSS_CLASS);
+
+    _columns.forEach(function(v, i) {
+      rowEnter.append('td')
+        .attr('class', COLUMN_CSS_CLASS + ' _' + i)
+        .html(function(d) {
+          return _chart._doColumnValueFormat(v, d);
         });
+    });
 
-        rows.exit().remove();
+    rows.exit().remove();
 
-        return rows;
+    return rows;
+  }
+
+  _chart._doRedraw = function() {
+    return _chart._doRender();
+  };
+
+  /**
+  #### .size([size])
+  Get or set the table size which determines the number of rows displayed by the widget.
+  **/
+  _chart.size = function(s) {
+    if (!arguments.length) {
+      return _size;
     }
+    _size = s;
+    return _chart;
+  };
 
-    _chart._doRedraw = function () {
-        return _chart._doRender();
-    };
+  /**
+  #### .columns([columnFunctionArray])
+  Get or set column functions. The data table widget now supports several methods of specifying
+  the columns to display.  The original method, first shown below, uses an array of functions to
+  generate dynamic columns. Column functions are simple javascript functions with only one input
+  argument `d` which represents a row in the data set. The return value of these functions will be
+  used directly to generate table content for each cell. However, this method requires the .html
+  table entry to have a fixed set of column headers.
+  ```js
+      chart.columns([
+          function(d) {
+              return d.date;
+          },
+          function(d) {
+              return d.open;
+          },
+          function(d) {
+              return d.close;
+          },
+          function(d) {
+              return numberFormat(d.close - d.open);
+          },
+          function(d) {
+              return d.volume;
+          }
+      ]);
+  ```
+  The next example shows you can simply list the data (d) content directly without
+  specifying it as a function, except where necessary (ie, computed columns).  Note
+  the data element accessor name is capitalized when displayed in the table. You can
+  also mix in functions as desired or necessary, but you must use the
+      Object = [Label, Fn] method as shown below.
+  You may wish to override the following two functions, which are internally used to
+  translate the column information or function into a displayed header. The first one
+  is used on the simple "string" column specifier, the second is used to transform the
+  String(fn) into something displayable. For the Stock example, the function for Change
+  becomes a header of 'd.close - d.open'.
+      _chart._doColumnHeaderCapitalize _chart._doColumnHeaderFnToString
+  You may use your own Object definition, however you must then override
+      _chart._doColumnHeaderFormat , _chart._doColumnValueFormat
+  Be aware that fields without numberFormat specification will be displayed just as
+  they are stored in the data, unformatted.
+  ```js
+      chart.columns([
+              "date",    // d["date"], ie, a field accessor; capitalized automatically
+              "open",    // ...
+              "close",   // ...
+              ["Change", // Specify an Object = [Label, Fn]
+                    function (d) {
+                        return numberFormat(d.close - d.open);
+                    }],
+              "volume"   // d["volume"], ie, a field accessor; capitalized automatically
+      ]);
+  ```
+  A third example, where all fields are specified using the Object = [Label, Fn] method.
+  ```js
+      chart.columns([
+          ["Date",   // Specify an Object = [Label, Fn]
+           function (d) {
+               return d.date;
+           }],
+          ["Open",
+           function (d) {
+               return numberFormat(d.open);
+           }],
+          ["Close",
+           function (d) {
+               return numberFormat(d.close);
+           }],
+          ["Change",
+           function (d) {
+               return numberFormat(d.close - d.open);
+           }],
+          ["Volume",
+           function (d) {
+               return d.volume;
+           }]
+      ]);
+  ```
+  **/
+  _chart.columns = function(_) {
+    if (!arguments.length) {
+      return _columns;
+    }
+    _columns = _;
+    return _chart;
+  };
 
-    /**
-    #### .size([size])
-    Get or set the table size which determines the number of rows displayed by the widget.
-    **/
-    _chart.size = function (s) {
-        if (!arguments.length) {
-            return _size;
-        }
-        _size = s;
-        return _chart;
-    };
+  /**
+  #### .sortBy([sortByFunction])
+  Get or set sort-by function. This function works as a value accessor at row level and returns a
+  particular field to be sorted by. Default value: identity function
+  ```js
+     chart.sortBy(function(d) {
+          return d.date;
+      });
+  ```
+  **/
+  _chart.sortBy = function(_) {
+    if (!arguments.length) {
+      return _sortBy;
+    }
+    _sortBy = _;
+    return _chart;
+  };
 
-    /**
-    #### .columns([columnFunctionArray])
-    Get or set column functions. The data table widget now supports several methods of specifying
-    the columns to display.  The original method, first shown below, uses an array of functions to
-    generate dynamic columns. Column functions are simple javascript functions with only one input
-    argument `d` which represents a row in the data set. The return value of these functions will be
-    used directly to generate table content for each cell. However, this method requires the .html
-    table entry to have a fixed set of column headers.
-    ```js
-        chart.columns([
-            function(d) {
-                return d.date;
-            },
-            function(d) {
-                return d.open;
-            },
-            function(d) {
-                return d.close;
-            },
-            function(d) {
-                return numberFormat(d.close - d.open);
-            },
-            function(d) {
-                return d.volume;
-            }
-        ]);
-    ```
-    The next example shows you can simply list the data (d) content directly without
-    specifying it as a function, except where necessary (ie, computed columns).  Note
-    the data element accessor name is capitalized when displayed in the table. You can
-    also mix in functions as desired or necessary, but you must use the
-        Object = [Label, Fn] method as shown below.
-    You may wish to override the following two functions, which are internally used to
-    translate the column information or function into a displayed header. The first one
-    is used on the simple "string" column specifier, the second is used to transform the
-    String(fn) into something displayable. For the Stock example, the function for Change
-    becomes a header of 'd.close - d.open'.
-        _chart._doColumnHeaderCapitalize _chart._doColumnHeaderFnToString
-    You may use your own Object definition, however you must then override
-        _chart._doColumnHeaderFormat , _chart._doColumnValueFormat
-    Be aware that fields without numberFormat specification will be displayed just as
-    they are stored in the data, unformatted.
-    ```js
-        chart.columns([
-                "date",    // d["date"], ie, a field accessor; capitalized automatically
-                "open",    // ...
-                "close",   // ...
-                ["Change", // Specify an Object = [Label, Fn]
-                      function (d) {
-                          return numberFormat(d.close - d.open);
-                      }],
-                "volume"   // d["volume"], ie, a field accessor; capitalized automatically
-        ]);
-    ```
-    A third example, where all fields are specified using the Object = [Label, Fn] method.
-    ```js
-        chart.columns([
-            ["Date",   // Specify an Object = [Label, Fn]
-             function (d) {
-                 return d.date;
-             }],
-            ["Open",
-             function (d) {
-                 return numberFormat(d.open);
-             }],
-            ["Close",
-             function (d) {
-                 return numberFormat(d.close);
-             }],
-            ["Change",
-             function (d) {
-                 return numberFormat(d.close - d.open);
-             }],
-            ["Volume",
-             function (d) {
-                 return d.volume;
-             }]
-        ]);
-    ```
-    **/
-    _chart.columns = function (_) {
-        if (!arguments.length) {
-            return _columns;
-        }
-        _columns = _;
-        return _chart;
-    };
+  /**
+  #### .order([order])
+  Get or set sort order. Default value: ``` d3.ascending ```
+  ```js
+      chart.order(d3.descending);
+  ```
+  **/
+  _chart.order = function(_) {
+    if (!arguments.length) {
+      return _order;
+    }
+    _order = _;
+    return _chart;
+  };
 
-    /**
-    #### .sortBy([sortByFunction])
-    Get or set sort-by function. This function works as a value accessor at row level and returns a
-    particular field to be sorted by. Default value: identity function
-    ```js
-       chart.sortBy(function(d) {
-            return d.date;
-        });
-    ```
-    **/
-    _chart.sortBy = function (_) {
-        if (!arguments.length) {
-            return _sortBy;
-        }
-        _sortBy = _;
-        return _chart;
-    };
-
-    /**
-    #### .order([order])
-    Get or set sort order. Default value: ``` d3.ascending ```
-    ```js
-        chart.order(d3.descending);
-    ```
-    **/
-    _chart.order = function (_) {
-        if (!arguments.length) {
-            return _order;
-        }
-        _order = _;
-        return _chart;
-    };
-
-    return _chart.anchor(parent, chartGroup);
+  return _chart.anchor(parent, chartGroup);
 };
 
 module.exports = crossbioMSA;
