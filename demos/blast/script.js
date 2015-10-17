@@ -42,8 +42,12 @@ function display(err, result) {
   var orgDim = c.dimension(function(d) {
     // uniprot specs are crazy
     var org = d.def.split("|").pop().split(/[ ](.+)?/,2)[1].split(";").pop();
-    org = (/\[(.*)\]/).exec(org)[1];
-    return org;
+    var trimmed_org = (/\[(.*)\]/).exec(org);
+    if (trimmed_org){
+      return trimmed_org[1];
+    }else{
+      return org;
+    }
   });
   var orgGroup = orgDim.group().reduceCount();
 
