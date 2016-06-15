@@ -1,0 +1,76 @@
+<head>
+    <meta charset="utf8">
+    <script src="https://wzrd.in/bundle/crossbio@latest"></script>
+    <script src="https://wzrd.in/bundle/msa@latest"></script>
+    <script src="https://wzrd.in/bundle/biojs-io-fasta@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.3/dc.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/greenify/msa/master/css/msa.css">
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div>
+            <div class="dc-data-count">
+                <span class="filter-count"></span> selected out of <span class="total-count"></span> records
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="aa-pie">
+            <strong>AA distribution</strong>
+            <div class="clearfix"></div>
+        </div>
+        <div id="aa-length">
+            <strong>Length distribution</strong>
+            <a class="reset" href="javascript:lengthChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+            <div class="clearfix"></div>
+        </div>
+        <div id="aa-bar">
+            <strong>AA distribution</strong>
+            <div class="clearfix"></div>
+        </div>
+        <div id="msa-org">
+            <a class="reset" href="javascript:orgChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+            <strong>Organisms</strong>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div id="msa-data-table">
+    </div>
+
+</div>
+   <script>
+   	   /*
+        function supportsImports() {
+            return 'import' in document.createElement('link');
+        }
+
+        function importHTML() {
+            var link = document.querySelector('link[rel="import"]');
+            var content = link.import;
+
+            // Grab DOM from warning.html's document.
+            var el = content.querySelector('body');
+
+            document.body.appendChild(el.cloneNode(true));
+
+    		dc.renderAll();
+        }
+
+        if (supportsImports()) {
+            importHTML();
+        } else {
+            // Use other libraries/require systems to load files.
+            window.addEventListener('WebComponentsReady', function(e) {
+                console.log("hi");
+                importHTML();
+            });
+        }
+        */
+    </script>
+    <script src="script.js"></script>
+</body>
